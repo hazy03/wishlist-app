@@ -2,6 +2,7 @@ import React from 'react';
 import { Item } from '../../types';
 import { formatPrice } from '../../utils/helpers';
 import { useTranslation } from '../../hooks/useTranslation';
+import { useLanguageStore } from '../../store/languageStore';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Button } from '../ui/Button';
 
@@ -23,6 +24,8 @@ export const ItemCard: React.FC<ItemCardProps> = ({
   onDelete,
 }) => {
   const { t } = useTranslation();
+  const { language } = useLanguageStore();
+  const locale = language === 'ru' ? 'ru-RU' : 'en-US';
   const isReserved = item.is_reserved || item.reserved_by !== null;
   const isFullyFunded = (item.total_contributions ?? 0) >= item.price;
 
@@ -55,7 +58,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({
         )}
 
         <div className="mb-6 pb-4 border-b border-warmGray dark:border-darkCard">
-          <p className="text-soft-3xl font-display text-charcoal dark:text-darkText font-medium">{formatPrice(item.price)}</p>
+          <p className="text-soft-3xl font-display text-charcoal dark:text-darkText font-medium">{formatPrice(item.price, locale)}</p>
         </div>
 
         {isOwner ? (
@@ -96,7 +99,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({
                     <ul className="space-y-2">
                       {item.contributions.map((contrib, idx) => (
                         <li key={idx} className="text-sm text-charcoal dark:text-darkText">
-                          {contrib.name} – {formatPrice(contrib.amount)}
+                          {contrib.name} – {formatPrice(contrib.amount, locale)}
                         </li>
                       ))}
                     </ul>

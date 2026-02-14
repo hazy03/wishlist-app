@@ -1,5 +1,5 @@
-export const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('ru-RU', {
+export const formatPrice = (price: number, locale: string = 'ru-RU'): string => {
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: 'RUB',
     minimumFractionDigits: 0,
@@ -7,8 +7,8 @@ export const formatPrice = (price: number): string => {
   }).format(price);
 };
 
-export const formatDate = (dateString: string): string => {
-  return new Date(dateString).toLocaleDateString('ru-RU', {
+export const formatDate = (dateString: string, locale: string = 'ru-RU'): string => {
+  return new Date(dateString).toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

@@ -172,7 +172,7 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://example.com/product"
+              placeholder={t('productUrlPlaceholder')}
               className="flex-1"
             />
             <AutofillButton
@@ -199,7 +199,7 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({
           required
           min="0"
           step="0.01"
-          placeholder="0.00"
+          placeholder={t('pricePlaceholder')}
         />
 
         <div>
@@ -212,7 +212,7 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({
             <div className="mb-3">
               <img
                 src={imagePreview || imageUrl}
-                alt="Preview"
+                alt={t('preview')}
                 className="w-full h-48 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
               />
             </div>
@@ -233,7 +233,7 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({
                   setImagePreview(null);
                 }
               }}
-              placeholder="https://example.com/image.jpg"
+              placeholder={t('imageUrlPlaceholder')}
             />
           </div>
 

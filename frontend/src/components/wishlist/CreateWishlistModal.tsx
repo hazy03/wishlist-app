@@ -63,7 +63,7 @@ export const CreateWishlistModal: React.FC<CreateWishlistModalProps> = ({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            {t('wishlistDescription')} ({t('cancel')})
+            {t('wishlistDescription')} ({t('optional')})
           </label>
           <textarea
             value={description}
