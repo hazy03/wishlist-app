@@ -1,5 +1,6 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 from app.core.config import settings
 from app.api.endpoints import auth, wishlists, items, reservations, contributions, autofill, friends, profile
 from app.core.websocket_manager import ws_manager
@@ -9,14 +10,30 @@ import asyncio
 
 app = FastAPI(title="Social Wishlist API", version="1.0.0")
 
-# CORS middleware
+# CORS middleware - должен быть первым
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.allowed_origins_list,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=600,
 )
+
+# Явная обработка OPTIONS для всех маршрутов
+@app.middleware("http")
+async def handle_options(request: Request, call_next):
+    if request.method == "OPTIONS":
+        origin = request.headers.get("origin", "*")
+        response = Response(status_code=200)
+        response.headers["Access-Control-Allow-Origin"] = origin if origin in settings.allowed_origins_list else settings.allowed_origins_list[0]
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+        response.headers["Access-Control-Allow-Headers"] = "*"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Max-Age"] = "600"
+        return response
+    return await call_next(request)
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
