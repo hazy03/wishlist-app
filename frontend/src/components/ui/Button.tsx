@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
   
   const variantClasses = {
     primary: 'bg-charcoal dark:bg-darkText text-white dark:text-darkBg hover:bg-darkGray dark:hover:bg-darkMuted focus:ring-charcoal dark:focus:ring-darkText shadow-soft hover:shadow-soft-md transition-all duration-300',
-    secondary: 'bg-white dark:bg-darkCard border-2 border-charcoal dark:border-darkText text-charcoal dark:text-darkText hover:bg-softGray dark:hover:bg-darkSurface focus:ring-charcoal dark:focus:ring-darkText shadow-soft hover:shadow-soft-md transition-all duration-300',
+    secondary: 'bg-white dark:bg-darkCard border-2 border-charcoal dark:border-darkMuted text-charcoal dark:text-darkText hover:bg-softGray dark:hover:bg-darkSurface focus:ring-charcoal dark:focus:ring-darkText shadow-soft hover:shadow-soft-md transition-all duration-300',
     danger: 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 shadow-soft hover:shadow-soft-md transition-all duration-300',
     outline: 'border-2 border-warmGray dark:border-darkCard text-charcoal dark:text-darkText hover:bg-softGray dark:hover:bg-darkCard focus:ring-warmGray dark:focus:ring-darkCard transition-all duration-300',
   };

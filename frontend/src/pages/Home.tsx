@@ -25,22 +25,22 @@ export const Home: React.FC = () => {
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-8 sm:mt-12 px-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-8 sm:mt-12 px-4 w-full max-w-md mx-auto">
             {isAuthenticated ? (
-              <Link to="/dashboard">
-                <Button variant="primary" size="lg">
+              <Link to="/dashboard" className="w-full">
+                <Button variant="primary" size="lg" className="w-full">
                   {t('dashboard')}
                 </Button>
               </Link>
             ) : (
               <>
-                <Link to="/register">
-                  <Button variant="primary" size="lg">
+                <Link to="/register" className="w-full">
+                  <Button variant="primary" size="lg" className="w-full">
                     {t('getStarted')}
                   </Button>
                 </Link>
-                <Link to="/login">
-                  <Button variant="secondary" size="lg">
+                <Link to="/login" className="w-full">
+                  <Button variant="secondary" size="lg" className="w-full">
                     {t('login')}
                   </Button>
                 </Link>
