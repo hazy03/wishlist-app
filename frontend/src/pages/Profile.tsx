@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { UserProfile } from '../types';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -22,6 +22,8 @@ export const Profile: React.FC = () => {
   });
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchProfile();
@@ -73,6 +75,35 @@ export const Profile: React.FC = () => {
     return age;
   };
 
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setError(t('invalidImageFile'));
+        return;
+      }
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setError(t('imageTooLarge'));
+        return;
+      }
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        setAvatarPreview(result);
+        setFormData({ ...formData, avatar_url: result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-cream dark:bg-darkBg transition-colors duration-300">
@@ -119,20 +150,42 @@ export const Profile: React.FC = () => {
           {isEditing ? (
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
-                {formData.avatar_url && (
-                  <img
-                    src={formData.avatar_url}
-                    alt="Avatar"
-                    className="w-24 h-24 rounded-full object-cover border-2 border-warmGray dark:border-darkCard"
+                <div 
+                  onClick={handleAvatarClick}
+                  className="relative cursor-pointer group"
+                >
+                  {(avatarPreview || formData.avatar_url) ? (
+                    <img
+                      src={avatarPreview || formData.avatar_url}
+                      alt="Avatar"
+                      className="w-24 h-24 rounded-full object-cover border-2 border-warmGray dark:border-darkCard group-hover:opacity-70 transition-opacity"
+                    />
+                  ) : (
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold group-hover:opacity-70 transition-opacity">
+                      {(formData.full_name || profile.email)[0].toUpperCase()}
+                    </div>
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg className="w-8 h-8 text-charcoal dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleAvatarFileChange}
+                    className="hidden"
                   />
-                )}
+                </div>
                 <div className="flex-1">
-                  <Input
-                    label={t('avatarUrl')}
-                    value={formData.avatar_url}
-                    onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
-                    placeholder="https://example.com/avatar.jpg"
-                  />
+                  <p className="text-sm text-gray dark:text-darkMuted">
+                    {t('clickToUploadAvatar')}
+                  </p>
+                  <p className="text-xs text-gray dark:text-darkMuted mt-1">
+                    JPG, PNG, GIF до 5MB
+                  </p>
                 </div>
               </div>
 
@@ -192,6 +245,7 @@ export const Profile: React.FC = () => {
                 </Button>
                 <Button variant="outline" onClick={() => {
                   setIsEditing(false);
+                  setAvatarPreview(null);
                   fetchProfile();
                 }}>
                   {t('cancel')}
