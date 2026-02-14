@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from app.core.config import settings
@@ -24,19 +24,32 @@ app.add_middleware(
 # Явная обработка OPTIONS для всех маршрутов + логирование
 @app.middleware("http")
 async def handle_options(request: Request, call_next):
-    print(f"📨 {request.method} {request.url.path}")
+    origin = request.headers.get("origin", "")
+    print(f"📨 {request.method} {request.url.path} from {origin}")
+    
+    # Проверяем, разрешен ли origin (с учетом поддоменов)
+    allowed_origin = None
+    for allowed in settings.allowed_origins_list:
+        if origin == allowed or origin.startswith(allowed.rstrip('/')):
+            allowed_origin = origin
+            break
+    if not allowed_origin:
+        allowed_origin = settings.allowed_origins_list[0] if settings.allowed_origins_list else origin or "*"
+    
     if request.method == "OPTIONS":
-        origin = request.headers.get("origin", "*")
-        print(f"🌐 CORS preflight from: {origin}")
+        print(f"🌐 CORS preflight from: {origin} -> allowed: {allowed_origin}")
         response = Response(status_code=200)
-        allowed_origin = origin if origin in settings.allowed_origins_list else settings.allowed_origins_list[0]
         response.headers["Access-Control-Allow-Origin"] = allowed_origin
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
         response.headers["Access-Control-Allow-Headers"] = "*"
         response.headers["Access-Control-Allow-Credentials"] = "true"
         response.headers["Access-Control-Max-Age"] = "600"
         return response
+    
     response = await call_next(request)
+    # Добавляем CORS заголовки ко всем ответам
+    response.headers["Access-Control-Allow-Origin"] = allowed_origin
+    response.headers["Access-Control-Allow-Credentials"] = "true"
     print(f"📤 Response: {response.status_code}")
     return response
 
@@ -121,4 +134,47 @@ async def root():
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
+
+
+# Добавляем CORS заголовки к ошибкам
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    from fastapi.responses import JSONResponse
+    origin = request.headers.get("origin", "")
+    allowed_origin = None
+    for allowed in settings.allowed_origins_list:
+        if origin == allowed or origin.startswith(allowed.rstrip('/')):
+            allowed_origin = origin
+            break
+    if not allowed_origin:
+        allowed_origin = settings.allowed_origins_list[0] if settings.allowed_origins_list else origin or "*"
+    
+    response = JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": exc.detail},
+    )
+    response.headers["Access-Control-Allow-Origin"] = allowed_origin
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    return response
+
+
+@app.exception_handler(Exception)
+async def general_exception_handler(request: Request, exc: Exception):
+    from fastapi.responses import JSONResponse
+    origin = request.headers.get("origin", "")
+    allowed_origin = None
+    for allowed in settings.allowed_origins_list:
+        if origin == allowed or origin.startswith(allowed.rstrip('/')):
+            allowed_origin = origin
+            break
+    if not allowed_origin:
+        allowed_origin = settings.allowed_origins_list[0] if settings.allowed_origins_list else origin or "*"
+    
+    response = JSONResponse(
+        status_code=500,
+        content={"detail": "Internal server error"},
+    )
+    response.headers["Access-Control-Allow-Origin"] = allowed_origin
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    return response
 
