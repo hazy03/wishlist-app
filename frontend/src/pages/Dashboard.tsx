@@ -37,16 +37,16 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-cream dark:bg-darkBg transition-colors duration-300">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-16 md:py-24">
-        <div className="mb-16">
-          <span className="text-sm text-sage dark:text-forest font-medium mb-4 block">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-8 sm:py-12 md:py-16 lg:py-24">
+        <div className="mb-8 sm:mb-12 md:mb-16">
+          <span className="text-sm text-sage dark:text-forest font-medium mb-2 sm:mb-4 block">
             {t('dashboard')}
           </span>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h1 className="section-title mb-0">
               {t('myWishlists')}
             </h1>
-            <Button variant="primary" onClick={() => setIsModalOpen(true)}>
+            <Button variant="primary" onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto">
               {t('createWishlist')}
             </Button>
           </div>
@@ -59,20 +59,20 @@ export const Dashboard: React.FC = () => {
             ))}
           </div>
         ) : wishlists.length === 0 ? (
-          <div className="text-center py-24 animate-fade-in-slow">
-            <div className="text-7xl mb-8">🎁</div>
-            <h2 className="text-soft-4xl font-display text-charcoal dark:text-darkText mb-4 font-medium">
+          <div className="text-center py-12 sm:py-16 md:py-24 animate-fade-in-slow">
+            <div className="text-5xl sm:text-6xl md:text-7xl mb-6 sm:mb-8">🎁</div>
+            <h2 className="text-soft-2xl sm:text-soft-3xl md:text-soft-4xl font-display text-charcoal dark:text-darkText mb-4 font-medium">
               {t('noWishlists')}
             </h2>
-            <p className="cozy-text-lg mb-10 max-w-md mx-auto">
+            <p className="cozy-text-lg mb-8 sm:mb-10 max-w-md mx-auto px-4">
               {t('welcomeDescription')}
             </p>
-            <Button variant="primary" onClick={() => setIsModalOpen(true)}>
+            <Button variant="primary" onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto">
               {t('createWishlist')}
             </Button>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {wishlists.map((wishlist) => (
               <WishlistCard key={wishlist.id} wishlist={wishlist} />
             ))}
