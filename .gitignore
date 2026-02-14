@@ -50,3 +50,7 @@ logs/
 # Alembic
 alembic/versions/*.pyc
 
+# Documentation (keep only README.md)
+*.md
+!README.md
+
