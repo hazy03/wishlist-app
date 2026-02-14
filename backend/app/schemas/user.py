@@ -21,11 +21,24 @@ class UserLogin(BaseModel):
 class UserProfileUpdate(BaseModel):
     full_name: Optional[str] = None
     bio: Optional[str] = None
-    birthday: Optional[date] = None
+    birthday: Optional[date | str] = None  # Accept string for empty values
     location: Optional[str] = None
     phone: Optional[str] = None
     website: Optional[str] = None
     avatar_url: Optional[str] = None
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "full_name": "John Doe",
+                "bio": "Hello!",
+                "birthday": "1990-01-01",
+                "location": "Moscow",
+                "phone": "+79991234567",
+                "website": "https://example.com",
+                "avatar_url": "https://example.com/avatar.jpg"
+            }
+        }
 
 
 class UserResponse(UserBase):

@@ -53,10 +53,22 @@ export const Profile: React.FC = () => {
     setError('');
     setIsSaving(true);
     try {
-      const response = await api.put('/profile', formData);
+      // Convert empty strings to null for optional fields
+      const dataToSend = {
+        ...formData,
+        birthday: formData.birthday || null,
+        bio: formData.bio || null,
+        location: formData.location || null,
+        phone: formData.phone || null,
+        website: formData.website || null,
+        avatar_url: formData.avatar_url || null,
+        full_name: formData.full_name || null,
+      };
+      const response = await api.put('/profile', dataToSend);
       setProfile(response.data);
       setIsEditing(false);
     } catch (error: any) {
+      console.error('Profile save error:', error.response?.data);
       setError(error.response?.data?.detail || t('error'));
     } finally {
       setIsSaving(false);
