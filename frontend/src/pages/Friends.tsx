@@ -158,7 +158,11 @@ export const Friends: React.FC = () => {
               value={searchQuery}
               onChange={handleSearchChange}
               placeholder={t('searchUsersPlaceholder')}
+              disabled={isSearching}
             />
+            {isSearching && (
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('loading')}</p>
+            )}
             {searchResults.length > 0 && (
               <div className="mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 max-h-60 overflow-y-auto">
                 {searchResults.map((user) => {

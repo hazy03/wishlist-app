@@ -294,8 +294,8 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({
           <Button type="button" variant="outline" onClick={onClose}>
             {t('cancel')}
           </Button>
-          <Button type="submit" variant="primary" isLoading={isLoading}>
-            {item ? t('update') : t('addItem')}
+          <Button type="submit" variant="primary" isLoading={isLoading || isUploadingImage}>
+            {isUploadingImage ? t('loading') : (item ? t('update') : t('addItem'))}
           </Button>
         </div>
       </form>
