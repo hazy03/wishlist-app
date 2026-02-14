@@ -6,17 +6,19 @@ interface AuthState {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  hasCheckedAuth: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, fullName: string) => Promise<void>;
   logout: () => void;
   fetchUser: () => Promise<void>;
-  checkAuth: () => void;
+  checkAuth: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
-  isLoading: true, // Start with true to prevent immediate redirect
+  isLoading: true, // Start with true to prevent flash of login form
   isAuthenticated: false,
+  hasCheckedAuth: false, // Track if initial auth check is complete
 
   login: async (email: string, password: string) => {
     set({ isLoading: true });
@@ -44,23 +46,23 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   logout: () => {
     localStorage.removeItem('access_token');
-    set({ user: null, isAuthenticated: false, isLoading: false });
+    set({ user: null, isAuthenticated: false, isLoading: false, hasCheckedAuth: true });
   },
 
   fetchUser: async () => {
     const token = localStorage.getItem('access_token');
     if (!token) {
-      set({ user: null, isAuthenticated: false, isLoading: false });
+      set({ user: null, isAuthenticated: false, isLoading: false, hasCheckedAuth: true });
       return;
     }
 
     set({ isLoading: true });
     try {
       const response = await api.get('/auth/me');
-      set({ user: response.data, isAuthenticated: true, isLoading: false });
+      set({ user: response.data, isAuthenticated: true, isLoading: false, hasCheckedAuth: true });
     } catch (error) {
       localStorage.removeItem('access_token');
-      set({ user: null, isAuthenticated: false, isLoading: false });
+      set({ user: null, isAuthenticated: false, isLoading: false, hasCheckedAuth: true });
     }
   },
 
@@ -69,7 +71,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (token) {
       await get().fetchUser();
     } else {
-      set({ user: null, isAuthenticated: false, isLoading: false });
+      set({ user: null, isAuthenticated: false, isLoading: false, hasCheckedAuth: true });
     }
   },
 }));

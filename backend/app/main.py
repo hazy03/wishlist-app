@@ -1,6 +1,7 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
+from starlette.middleware.sessions import SessionMiddleware
 from app.core.config import settings
 from app.api.endpoints import auth, wishlists, items, reservations, contributions, autofill, friends, profile
 from app.core.websocket_manager import ws_manager
@@ -19,6 +20,15 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
     max_age=600,
+)
+
+# Session middleware for OAuth (must be after CORS)
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.SECRET_KEY,
+    max_age=3600,
+    same_site="lax",
+    https_only=False,  # Set to True in production with HTTPS
 )
 
 # Явная обработка OPTIONS для всех маршрутов + логирование
