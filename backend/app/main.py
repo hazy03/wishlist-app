@@ -21,19 +21,24 @@ app.add_middleware(
     max_age=600,
 )
 
-# Явная обработка OPTIONS для всех маршрутов
+# Явная обработка OPTIONS для всех маршрутов + логирование
 @app.middleware("http")
 async def handle_options(request: Request, call_next):
+    print(f"📨 {request.method} {request.url.path}")
     if request.method == "OPTIONS":
         origin = request.headers.get("origin", "*")
+        print(f"🌐 CORS preflight from: {origin}")
         response = Response(status_code=200)
-        response.headers["Access-Control-Allow-Origin"] = origin if origin in settings.allowed_origins_list else settings.allowed_origins_list[0]
+        allowed_origin = origin if origin in settings.allowed_origins_list else settings.allowed_origins_list[0]
+        response.headers["Access-Control-Allow-Origin"] = allowed_origin
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
         response.headers["Access-Control-Allow-Headers"] = "*"
         response.headers["Access-Control-Allow-Credentials"] = "true"
         response.headers["Access-Control-Max-Age"] = "600"
         return response
-    return await call_next(request)
+    response = await call_next(request)
+    print(f"📤 Response: {response.status_code}")
+    return response
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])

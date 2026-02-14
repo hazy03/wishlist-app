@@ -35,18 +35,21 @@ if settings.GOOGLE_CLIENT_ID and settings.GOOGLE_CLIENT_SECRET:
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     """Register a new user."""
+    print(f"📥 Register called with email: {user_data.email}")
     try:
         # Check if user already exists
         result = await db.execute(select(User).where(User.email == user_data.email))
         existing_user = result.scalar_one_or_none()
         
         if existing_user:
+            print(f"⚠️ User already exists: {user_data.email}")
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Email already registered"
             )
         
         # Create new user
+        print(f"🔐 Creating user: {user_data.email}")
         hashed_password = get_password_hash(user_data.password)
         new_user = User(
             email=user_data.email,
@@ -56,8 +59,11 @@ async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
         )
         
         db.add(new_user)
+        print(f"💾 Committing to database...")
         await db.commit()
+        print(f"✅ User committed successfully")
         await db.refresh(new_user)
+        print(f"✅ User refreshed: ID={new_user.id}")
         
         return new_user
     except HTTPException:
