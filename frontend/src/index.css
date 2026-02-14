@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-warmGray dark:border-darkCard;
+  }
+  
+  body {
+    @apply bg-cream dark:bg-darkBg text-charcoal dark:text-darkText antialiased transition-colors duration-300;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  html {
+    @apply transition-colors duration-300;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    @apply text-charcoal dark:text-darkText;
+  }
+}
+
+@layer components {
+  /* Buttons - мягкие, скругленные */
+  .btn-primary {
+    @apply bg-charcoal dark:bg-darkText text-white dark:text-darkBg font-medium py-3 px-6 rounded-soft shadow-soft hover:shadow-soft-md transition-all duration-300 text-sm;
+    @apply hover:bg-darkGray dark:hover:bg-darkMuted active:scale-[0.98];
+  }
+  
+  .btn-secondary {
+    @apply bg-white dark:bg-darkCard border-2 border-charcoal dark:border-darkText text-charcoal dark:text-darkText font-medium py-3 px-6 rounded-soft shadow-soft hover:shadow-soft-md transition-all duration-300 text-sm;
+    @apply hover:bg-softGray dark:hover:bg-darkSurface active:scale-[0.98];
+  }
+  
+  .btn-outline {
+    @apply bg-transparent border-2 border-warmGray dark:border-darkCard text-charcoal dark:text-darkText font-medium py-3 px-6 rounded-soft hover:bg-softGray dark:hover:bg-darkCard transition-all duration-300 text-sm;
+  }
+  
+  /* Cards - уютные, с мягкими тенями */
+  .card {
+    @apply bg-white dark:bg-darkCard border border-warmGray dark:border-darkSurface rounded-soft shadow-soft hover:shadow-soft-md transition-all duration-300;
+  }
+  
+  .cozy-card {
+    @apply bg-white dark:bg-darkCard rounded-soft-xl shadow-soft-lg hover:shadow-soft-xl transition-all duration-500 p-8;
+    @apply border border-warmGray/50 dark:border-darkSurface/50;
+  }
+  
+  /* Inputs - мягкие, скругленные */
+  .input {
+    @apply w-full px-4 py-3 border-2 border-warmGray dark:border-darkCard bg-white dark:bg-darkSurface text-charcoal dark:text-darkText rounded-soft;
+    @apply focus:border-sage dark:focus:border-forest focus:outline-none focus:ring-2 focus:ring-sage/20 dark:focus:ring-forest/20 transition-all duration-300;
+    @apply placeholder:text-gray dark:placeholder:text-darkMuted;
+  }
+  
+  /* Typography */
+  .section-title {
+    @apply text-soft-4xl md:text-soft-5xl font-display text-charcoal dark:text-darkText mb-6 tracking-tight font-light;
+  }
+  
+  .section-subtitle {
+    @apply text-soft-lg md:text-soft-xl text-gray dark:text-darkMuted font-light mb-8 leading-relaxed;
+  }
+  
+  .cozy-text {
+    @apply text-soft-base leading-relaxed text-charcoal dark:text-darkText;
+  }
+  
+  .cozy-text-lg {
+    @apply text-soft-lg leading-relaxed text-charcoal dark:text-darkText;
+  }
+  
+  /* Dividers - мягкие */
+  .divider {
+    @apply border-t border-warmGray dark:border-darkCard my-8;
+  }
+  
+  /* Accent elements */
+  .accent-sage {
+    @apply text-sage dark:text-forest;
+  }
+  
+  .accent-blush {
+    @apply text-blush dark:text-sand;
+  }
+}
+
