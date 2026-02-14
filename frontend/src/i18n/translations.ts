@@ -22,6 +22,7 @@ export const translations = {
     socialLoginRequired: 'Этот аккаунт был создан через социальную сеть. Используйте вход через социальную сеть.',
     completingLogin: 'Завершение входа...',
     oauthFailed: 'Ошибка входа через Google',
+    continueWithGoogle: 'Продолжить с Google',
     
     // Wishlist
     myWishlists: 'Мои вишлисты',
@@ -205,6 +206,7 @@ export const translations = {
     socialLoginRequired: 'This account was created with social login. Please use social login to sign in.',
     completingLogin: 'Completing login...',
     oauthFailed: 'Google login failed',
+    continueWithGoogle: 'Continue with Google',
     
     // Wishlist
     myWishlists: 'My Wishlists',

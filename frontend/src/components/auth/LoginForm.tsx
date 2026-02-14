@@ -37,7 +37,7 @@ export const LoginForm: React.FC = () => {
         <span className="text-sm text-sage dark:text-forest font-medium mb-4 block">
           {t('loginTitle')}
         </span>
-        <h2 className="text-soft-4xl font-display text-charcoal dark:text-darkText mb-4 font-medium">
+        <h2 className="text-2xl sm:text-3xl md:text-soft-4xl font-display text-charcoal dark:text-darkText mb-4 font-medium whitespace-nowrap">
           {t('welcomeBack')}
         </h2>
       </div>
