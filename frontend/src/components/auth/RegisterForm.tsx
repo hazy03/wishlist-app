@@ -40,7 +40,7 @@ export const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-4 sm:mt-8 md:mt-12 p-6 sm:p-8 md:p-12 cozy-card animate-fade-in-slow mx-4 sm:mx-6">
+    <div className="max-w-lg w-full mx-auto mt-4 sm:mt-8 md:mt-12 p-6 sm:p-8 md:p-12 cozy-card animate-fade-in-slow">
       <div className="text-center mb-10">
         <span className="text-sm text-sage dark:text-forest font-medium mb-4 block">
           {t('registerTitle')}
