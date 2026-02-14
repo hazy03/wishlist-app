@@ -30,7 +30,7 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isGroupGift, setIsGroupGift] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [, setIsUploadingImage] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [error, setError] = useState('');
   const { t } = useTranslation();
 

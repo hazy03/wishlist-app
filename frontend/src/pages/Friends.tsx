@@ -17,7 +17,7 @@ export const Friends: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<User[]>([]);
-  const [, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState<User | null>(null);
   const [friendWishlists, setFriendWishlists] = useState<FriendWishlist[]>([]);
   const [isWishlistsLoading, setIsWishlistsLoading] = useState(false);
@@ -101,14 +101,6 @@ export const Friends: React.FC = () => {
     }
   };
 
-  // const handleDeleteFriendship = async (friendshipId: string) => {
-  //   try {
-  //     await api.delete(`/friends/${friendshipId}`);
-  //     fetchFriends();
-  //   } catch (error: any) {
-  //     alert(error.response?.data?.detail || t('error'));
-  //   }
-  // };
 
   const viewFriendWishlists = async (friend: User) => {
     setSelectedFriend(friend);

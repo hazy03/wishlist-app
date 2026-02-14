@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../types';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Skeleton } from '../components/ui/Skeleton';
 import { useTranslation } from '../hooks/useTranslation';
-import { useAuthStore } from '../store/authStore';
 import api from '../services/api';
 
 export const Profile: React.FC = () => {
   const { t } = useTranslation();
-  // const navigate = useNavigate();
-  // const { user: currentUser } = useAuthStore();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
