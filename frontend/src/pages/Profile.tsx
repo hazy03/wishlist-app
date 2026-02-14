@@ -10,8 +10,8 @@ import api from '../services/api';
 
 export const Profile: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { user: currentUser } = useAuthStore();
+  // const navigate = useNavigate();
+  // const { user: currentUser } = useAuthStore();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);

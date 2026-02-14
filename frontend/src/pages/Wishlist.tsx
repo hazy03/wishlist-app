@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Wishlist, Item, AutofillResponse } from '../types';
+import { Wishlist, Item } from '../types';
 import { ItemCard } from '../components/item/ItemCard';
 import { CreateItemModal } from '../components/item/CreateItemModal';
 import { ShareButton } from '../components/wishlist/ShareButton';

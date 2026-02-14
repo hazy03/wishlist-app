@@ -24,7 +24,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const isReserved = item.is_reserved || item.reserved_by !== null;
-  const isFullyFunded = item.total_contributions !== null && item.total_contributions >= item.price;
+  const isFullyFunded = (item.total_contributions ?? 0) >= item.price;
 
   return (
     <div className="cozy-card overflow-hidden hover:shadow-soft-xl transition-all duration-500 group">

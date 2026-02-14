@@ -7,7 +7,7 @@ export class WebSocketManager {
   private maxReconnectAttempts = 10;
   private reconnectDelay = 3000;
   private onMessageCallback: ((data: any) => void) | null = null;
-  private reconnectTimer: NodeJS.Timeout | null = null;
+  private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(slug: string) {
     this.slug = slug;

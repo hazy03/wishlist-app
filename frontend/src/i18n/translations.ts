@@ -24,6 +24,8 @@ export const translations = {
     // Wishlist
     myWishlists: 'Мои вишлисты',
     createWishlist: 'Создать вишлист',
+    wishlist: 'Вишлист',
+    wishlists: 'Вишлисты',
     wishlistTitle: 'Название',
     wishlistDescription: 'Описание',
     create: 'Создать',
@@ -198,6 +200,8 @@ export const translations = {
     // Wishlist
     myWishlists: 'My Wishlists',
     createWishlist: 'Create Wishlist',
+    wishlist: 'Wishlist',
+    wishlists: 'Wishlists',
     wishlistTitle: 'Title',
     wishlistDescription: 'Description',
     create: 'Create',
