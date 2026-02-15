@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.db.session import get_db
@@ -118,8 +118,13 @@ async def get_current_user_info(current_user: User = Depends(get_current_user)):
 
 
 @router.get("/google")
+@router.head("/google")  # Support HEAD requests for health checks
 async def google_login(request: Request):
     """Initiate Google OAuth login."""
+    # Handle HEAD requests (health checks)
+    if request.method == "HEAD":
+        return Response(status_code=200)
+    
     if not oauth:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -129,7 +134,12 @@ async def google_login(request: Request):
     # Build redirect URI for callback
     redirect_uri = str(request.base_url).rstrip('/') + "/api/auth/google/callback"
     
-    return await oauth.google.authorize_redirect(request, redirect_uri)
+    # Force account selection (optional - remove if not needed)
+    return await oauth.google.authorize_redirect(
+        request, 
+        redirect_uri,
+        prompt="select_account"
+    )
 
 
 @router.get("/google/callback")
