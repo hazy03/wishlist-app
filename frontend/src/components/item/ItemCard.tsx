@@ -27,7 +27,10 @@ export const ItemCard: React.FC<ItemCardProps> = ({
   const { language } = useLanguageStore();
   const locale = language === 'ru' ? 'ru-RU' : 'en-US';
   const isReserved = item.is_reserved || item.reserved_by !== null;
-  const isFullyFunded = (item.total_contributions ?? 0) >= item.price;
+  // Fix: Convert to numbers for proper comparison (backend sends Decimal as string)
+  const totalContributions = Number(item.total_contributions || 0);
+  const itemPrice = Number(item.price);
+  const isFullyFunded = totalContributions >= itemPrice;
 
   return (
     <div className="cozy-card overflow-hidden hover:shadow-soft-xl transition-all duration-500 group">
@@ -90,8 +93,8 @@ export const ItemCard: React.FC<ItemCardProps> = ({
             {item.is_group_gift ? (
               <>
                 <ProgressBar
-                  current={item.total_contributions || 0}
-                  total={item.price}
+                  current={totalContributions}
+                  total={itemPrice}
                 />
                 {item.contributions && item.contributions.length > 0 && (
                   <div className="mt-6 pt-4 border-t border-warmGray dark:border-darkCard">
