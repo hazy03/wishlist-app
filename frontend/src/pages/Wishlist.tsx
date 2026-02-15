@@ -120,18 +120,22 @@ export const WishlistPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-cream dark:bg-darkBg transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-16 md:py-24">
-        <div className="mb-16">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <span className="text-sm text-sage dark:text-forest font-medium mb-4 block">
+        <div className="mb-8 md:mb-16">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6">
+            <div className="flex-1 min-w-0">
+              <span className="text-sm text-sage dark:text-forest font-medium mb-2 md:mb-4 block">
                 {t('wishlist')}
               </span>
-              <h1 className="section-title mb-4">{wishlist.title}</h1>
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-display text-charcoal dark:text-darkText font-medium mb-3 md:mb-4 break-words">
+                {wishlist.title}
+              </h1>
               {wishlist.description && (
-                <p className="section-subtitle max-w-2xl">{wishlist.description}</p>
+                <p className="text-base md:text-lg text-gray dark:text-darkMuted break-words">
+                  {wishlist.description}
+                </p>
               )}
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
               <ShareButton slug={wishlist.slug} />
               <Button variant="secondary" size="sm" onClick={() => setIsEditModalOpen(true)}>
                 {t('edit')}

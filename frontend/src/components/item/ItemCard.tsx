@@ -32,7 +32,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({
   return (
     <div className="cozy-card overflow-hidden hover:shadow-soft-xl transition-all duration-500 group">
       {item.image_url && (
-        <div className="w-full h-64 overflow-hidden mb-6 rounded-soft">
+        <div className="w-full h-48 md:h-64 overflow-hidden mb-4 md:mb-6 rounded-soft">
           <img
             src={item.image_url}
             alt={item.title}
@@ -42,7 +42,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({
       )}
       
       <div>
-        <h3 className="text-soft-2xl font-display text-charcoal dark:text-darkText mb-3 group-hover:text-sage dark:group-hover:text-forest transition-colors font-medium">
+        <h3 className="text-xl md:text-2xl font-display text-charcoal dark:text-darkText mb-2 md:mb-3 group-hover:text-sage dark:group-hover:text-forest transition-colors font-medium break-words">
           {item.title}
         </h3>
         
@@ -57,8 +57,8 @@ export const ItemCard: React.FC<ItemCardProps> = ({
           </a>
         )}
 
-        <div className="mb-6 pb-4 border-b border-warmGray dark:border-darkCard">
-          <p className="text-soft-3xl font-display text-charcoal dark:text-darkText font-medium">{formatPrice(item.price, locale)}</p>
+        <div className="mb-4 md:mb-6 pb-3 md:pb-4 border-b border-warmGray dark:border-darkCard">
+          <p className="text-2xl md:text-3xl font-display text-charcoal dark:text-darkText font-medium">{formatPrice(item.price, locale)}</p>
         </div>
 
         {isOwner ? (
@@ -76,11 +76,11 @@ export const ItemCard: React.FC<ItemCardProps> = ({
                 </p>
               </div>
             )}
-            <div className="flex items-center gap-3 pt-4 border-t border-warmGray dark:border-darkCard">
-              <Button variant="outline" size="sm" onClick={onEdit}>
+            <div className="flex items-center gap-2 md:gap-3 pt-3 md:pt-4 border-t border-warmGray dark:border-darkCard">
+              <Button variant="outline" size="sm" onClick={onEdit} className="flex-1 md:flex-none">
                 {t('edit')}
               </Button>
-              <Button variant="danger" size="sm" onClick={onDelete}>
+              <Button variant="danger" size="sm" onClick={onDelete} className="flex-1 md:flex-none">
                 {t('delete')}
               </Button>
             </div>
